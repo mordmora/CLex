@@ -31,7 +31,7 @@ static std::vector<TokenType> lexer(std::string &str) {
       TokenType tokenAux = getSpecialsTokens(lastChar);
       if(tokenAux == DOUBLE_QUOTES){
         
-        std::pair<int, std::string> result = strAutomaton(index, str);
+        std::pair<int, std::string> result = stackAutomaton(str, index, '"');
         index = result.first + 1;
       }else{
         
