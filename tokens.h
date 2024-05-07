@@ -7,6 +7,7 @@ enum TokenType {
 /*Tokens para las palabras claves */
   AUTO,
   MAIN,
+  STRING,
   DOUBLE,
   INT,
   STRUCT,
@@ -84,6 +85,7 @@ std::string tokenToStr(TokenType type){
     case REGISTER: return "register";
     case TYPEDEF: return "typedef";
     case CHAR: return "char";
+    case STRING: return "string";
     case EXTERN: return "extern";
     case RETURN: return "return";
     case UNION: return "union";
@@ -128,7 +130,8 @@ std::string tokenToStr(TokenType type){
     case SINGLE_QUOTES: return "'";
     case BACKSLASH: return "\\";
     case HASH: return "#";
-    default: return "Token no definido";
+    case IDENTIFIER: return "";
+    default: return "ERROR: Token no definido";
   }
 };
 
@@ -182,6 +185,8 @@ TokenType getAlphaNumericToken(std::string &identifierStr) {
         return FOR;
       } else if (identifierStr == "signed"){
         return SIGNED;
+      } else if (identifierStr == "string"){
+        return STRING;
       } else if (identifierStr == "void"){
         return VOID;
       } else if (identifierStr == "default"){

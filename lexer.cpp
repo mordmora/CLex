@@ -9,7 +9,12 @@
 
 std::string identifierStr;
 
-static std::vector<TokenType> lexer(std::string &str) {
+
+void displayDebugInfo(std::string strTok) {
+  std::cout << "[*] Lexer says: I found " << strTok << std::endl;
+}
+
+void lexer(std::string &str) {
   std::vector<TokenType> tokens;
   int index = 0;
   static int lastChar = ' ';
@@ -25,22 +30,27 @@ static std::vector<TokenType> lexer(std::string &str) {
       while(isalnum((lastChar = str[index++]))) {
         identifierStr += lastChar;
         }
-      tokens.push_back(getAlphaNumericToken(identifierStr));
+        if(getAlphaNumericToken(identifierStr) == IDENTIFIER) {
+          displayDebugInfo(identifierStr);
+        }else{
+          displayDebugInfo(tokenToStr(getAlphaNumericToken(identifierStr)));
+        }
+     // displayDebugInfo(tokenToStr(getAlphaNumericToken(identifierStr)));
     }else{
-
       TokenType tokenAux = getSpecialsTokens(lastChar);
+        std::pair<int, std::string> result;
       if(tokenAux == DOUBLE_QUOTES){
-        
-        std::pair<int, std::string> result = stackAutomaton(str, index, '"');
+        result = stackAutomaton(str, index, '"');
         index = result.first + 1;
-      }else{
-        
-        tokens.push_back(tokenAux);
+      } if(tokenAux == SINGLE_QUOTES){
+        result = stackAutomaton(str, index, '\'');
+        index = result.first + 1;
+        }else{
+        displayDebugInfo(tokenToStr(tokenAux));
       }
     }
     lastChar = str[index++];
   }
-  return tokens;
 }
 
 
@@ -69,10 +79,8 @@ int main() {
     } else {
         std::string str = transform(file);
         std::stack <TokenType> stack;
-        tokens = lexer(str);
-        // for(int i = 0; i < tokens.size(); i++){
-        //      std::cout << tokens[i] << std::endl;
-        // }
+        lexer(str);
+
     }
     return 0;
     
