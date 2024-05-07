@@ -1,14 +1,16 @@
 #include<stdio.h>
 #include <iostream>
 #include <vector>
-#include "lexer.h"
+#include "tokens.h"
+#include "automatons.h"
+#include <stack>
 
 //extern "C" int fopen(FILE** pFile, const char* filename, const char* mode);
 
 std::string identifierStr;
 
-static std::vector<int> lexer(std::string &str) {
-  std::vector<int> tokens;
+static std::vector<TokenType> lexer(std::string &str) {
+  std::vector<TokenType> tokens;
   int index = 0;
   static int lastChar = ' ';
 
@@ -20,12 +22,21 @@ static std::vector<int> lexer(std::string &str) {
       int num = lastChar - '0';
     } else if(isalpha(lastChar)){
       identifierStr = lastChar;
-      while(isalnum((lastChar = str[index]))) {
-        identifierStr += str[index++];
+      while(isalnum((lastChar = str[index++]))) {
+        identifierStr += lastChar;
         }
-      getAlphaNumericToken(identifierStr, tokens);
+      tokens.push_back(getAlphaNumericToken(identifierStr));
     }else{
-      getSpecialsTokens(lastChar, tokens);
+
+      TokenType tokenAux = getSpecialsTokens(lastChar);
+      if(tokenAux == DOUBLE_QUOTES){
+        
+        std::pair<int, std::string> result = strAutomaton(index, str);
+        index = result.first + 1;
+      }else{
+        
+        tokens.push_back(tokenAux);
+      }
     }
     lastChar = str[index++];
   }
@@ -42,7 +53,6 @@ std::string transform(FILE*&file) {
 
     if (bytesRead > 0) {
       str.append(buffer, bytesRead);
-      std::cout << "[*] Lexer says: i found --> " << str << " <-- in file"  << std::endl;
     }
   }
   fclose(file);
@@ -51,17 +61,19 @@ std::string transform(FILE*&file) {
 
 int main() {
     FILE* file = fopen("test.txt", "r");
-    std::vector<int> tokens;
+    std::vector<TokenType> tokens;
     std::string path = "test.txt";
 
     if(file == NULL){
         std::cout << "[*] Lexer says: Error file not found x(" << std::endl;
     } else {
         std::string str = transform(file);
+        std::stack <TokenType> stack;
         tokens = lexer(str);
-        for(int i = 0; i < tokens.size(); i++){
-            std::cout << tokens[i] << std::endl;
-        }
+        // for(int i = 0; i < tokens.size(); i++){
+        //      std::cout << tokens[i] << std::endl;
+        // }
     }
     return 0;
+    
 }
