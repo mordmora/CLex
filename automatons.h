@@ -31,8 +31,7 @@ std::pair<int, std::string> stackAutomaton(std::string str, int actualIndex, cha
                     stack.pop();
                 }
                 stack.pop();
-                std::cout << result << std::endl;
-                result.clear();
+                return {index, result};
             } else {
                 stack.push(stackChar); //Iniicio de un string
             }
@@ -40,14 +39,9 @@ std::pair<int, std::string> stackAutomaton(std::string str, int actualIndex, cha
             if(!stack.empty() && stack.top() == stackChar) {
                 
                 if(validScapeChar(str[++index]) == true) {
-                    std::cout<<"is valid: " << validScapeChar(str[index]) << std::endl;
-                    std::cout<<validScapeChar(str[index]) << std::endl;
                     if(str[index] == '"' || str[index] == '\'') {
                         result += str[index];
                     }
-                }else{
-                    std::cout<<"is not valid: " << validScapeChar(str[index]) << std::endl;
-                    printf("Invalid scape char: %c\n", str[index]);
                 }
         }
     } else if (!stack.empty() && stack.top() == stackChar) {

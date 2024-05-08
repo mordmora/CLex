@@ -10,8 +10,8 @@
 std::string identifierStr;
 
 
-void displayDebugInfo(std::string strTok) {
-  std::cout << "[*] Lexer says: I found " << strTok << std::endl;
+void displayDebugInfo(std::string strTok, TokenType tok) {
+  std::cout << "[*] Lexer: found::-> " << strTok << " -- TOKEN: " << tokenToStr(tok) << std::endl;
 }
 
 void lexer(std::string &str) {
@@ -31,24 +31,31 @@ void lexer(std::string &str) {
         identifierStr += lastChar;
         }
         if(getAlphaNumericToken(identifierStr) == IDENTIFIER) {
-          displayDebugInfo(identifierStr);
+          displayDebugInfo(identifierStr, IDENTIFIER);
         }else{
-          displayDebugInfo(tokenToStr(getAlphaNumericToken(identifierStr)));
+          displayDebugInfo(identifierStr, getAlphaNumericToken(identifierStr));
         }
      // displayDebugInfo(tokenToStr(getAlphaNumericToken(identifierStr)));
     }else{
       TokenType tokenAux = getSpecialsTokens(lastChar);
         std::pair<int, std::string> result;
       if(tokenAux == DOUBLE_QUOTES){
+        displayDebugInfo(std::string (1, lastChar), tokenAux);
         result = stackAutomaton(str, index, '"');
-        index = result.first + 1;
-      } if(tokenAux == SINGLE_QUOTES){
+        index = result.first+1;
+        displayDebugInfo(result.second, STRINGVAR);
+        displayDebugInfo(std::string (1, lastChar), tokenAux);
+      }else if(tokenAux == SINGLE_QUOTES){
+        displayDebugInfo(std::string (1, lastChar), tokenAux);
         result = stackAutomaton(str, index, '\'');
-        index = result.first + 1;
-        }else{
-        displayDebugInfo(tokenToStr(tokenAux));
-      }
+        index = result.first;
+        displayDebugInfo(result.second, STRINGVAR);
+        displayDebugInfo(std::string (1, lastChar), tokenAux);
+        }else {
+          displayDebugInfo(std::string (1, lastChar), tokenAux);
+        }
     }
+
     lastChar = str[index++];
   }
 }
