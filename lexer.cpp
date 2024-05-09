@@ -18,20 +18,29 @@ void lexer(std::string &str) {
   std::vector<TokenType> tokens;
   int index = 0;
   static int lastChar = ' ';
-
   while(index < str.length()){
     while(isspace(lastChar)){
       lastChar = str[index++];
     };
-    if(isdigit(lastChar)){
-      int num = lastChar - '0';
+    if(isdigit(lastChar) ){
+      identifierStr = lastChar;
+      while(isdigit((lastChar = str[index++])) || lastChar == '.' || lastChar == 'E' || lastChar == 'e' || lastChar == '+' || lastChar == '-') {
+        identifierStr += lastChar;
+      }
+
+      if(isConstant(identifierStr)){
+        displayDebugInfo(identifierStr, NUM_CONSTAN);
+      }else{
+        std::cout<<"[!] ERROR: Invalid numeric constan."<<std::endl;
+      }
     } else if(isalpha(lastChar)){
       identifierStr = lastChar;
       while(isalnum((lastChar = str[index++]))) {
         identifierStr += lastChar;
         }
-        if(getAlphaNumericToken(identifierStr) == IDENTIFIER) {
-          displayDebugInfo(identifierStr, IDENTIFIER);
+        if(getAlphaNumericToken(identifierStr) == IDENTIFIER) {     
+            displayDebugInfo(identifierStr, IDENTIFIER);
+        
         }else{
           displayDebugInfo(identifierStr, getAlphaNumericToken(identifierStr));
         }
@@ -55,7 +64,6 @@ void lexer(std::string &str) {
           displayDebugInfo(std::string (1, lastChar), tokenAux);
         }
     }
-
     lastChar = str[index++];
   }
 }

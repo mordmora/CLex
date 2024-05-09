@@ -1,8 +1,8 @@
 int main (){
-    string a = "hola mundo";
+    int a = 1E+a12;
+
 
 
 
     
-    string b = "hola";
     }

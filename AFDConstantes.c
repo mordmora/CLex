@@ -56,34 +56,3 @@ bool esConstante(const char *letra) {
   }
   return esAceptado(estadoActual);
 }
-
-int main() {
-
-  const char *constantes[] = {
-      "123",   "+123", "-123",  "1.23", ".123", "+.123", "-.123", "1E10",
-      "1E-10", "1e10", "1e-10", "E",    "e",    "+E",    "-e",    "1E",
-      "1e",    "3-E",  "3+E",   "1-e",  "1+e",  ".-1",   ".+1",   "1.2.3"};
-  int n = sizeof(constantes) / sizeof(constantes[0]);
-
-  for (int i = 0; i < n; i++) {
-    if (esConstante(constantes[i]))
-      printf("%s es una constante numérica válida.\n", constantes[i]);
-    else
-      printf("%s es una constante numérica inválida.\n", constantes[i]);
-  }
-
-  while (true) {
-    char constante[100];
-
-    printf("Digite constante numérica: ");
-    scanf("%s", constante);
-
-    if (esConstante(constante)) {
-      printf("Valor de la constante numérica es válido.\n");
-    } else {
-      printf("Valor de la constante numérica es inválido.\n");
-    }
-  }
-
-  return 0;
-}

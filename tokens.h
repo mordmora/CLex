@@ -20,6 +20,7 @@ enum TokenType {
   REGISTER,
   TYPEDEF,
   CHAR,
+  NUM_CONSTAN,
   EXTERN, 
   RETURN,
   UNION,
@@ -132,6 +133,7 @@ std::string tokenToStr(TokenType type){
     case SINGLE_QUOTES: return "SINGLE_QUOTES";
     case BACKSLASH: return "BACKSLASH";
     case HASH: return "HASH";
+    case NUM_CONSTAN : return "NUM_CONSTAN";
     case IDENTIFIER: return "IDENTIFIER";
     default: return "ERROR: Token no definido";
   }
