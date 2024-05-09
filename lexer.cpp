@@ -22,16 +22,19 @@ void lexer(std::string &str) {
     while(isspace(lastChar)){
       lastChar = str[index++];
     };
-    if(isdigit(lastChar) ){
+    if(isdigit(lastChar) || lastChar == '.' || lastChar == 'E' || lastChar == 'e' || lastChar == '+' || lastChar == '-') {
       identifierStr = lastChar;
-      while(isdigit((lastChar = str[index++])) || lastChar == '.' || lastChar == 'E' || lastChar == 'e' || lastChar == '+' || lastChar == '-') {
+      while(isalnum((lastChar = str[index])) || lastChar == '.' || lastChar == '+' || lastChar == '-') {
         identifierStr += lastChar;
+        index++;
       }
 
       if(isConstant(identifierStr)){
         displayDebugInfo(identifierStr, NUM_CONSTAN);
       }else{
-        std::cout<<"[!] ERROR: Invalid numeric constan."<<std::endl;
+
+        std::cout<<"[!] ERROR: Invalid numeric constan. ---> " <<identifierStr<<std::endl;
+        return;
       }
     } else if(isalpha(lastChar)){
       identifierStr = lastChar;

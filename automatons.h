@@ -31,7 +31,9 @@ std::pair<int, std::string> stackAutomaton(std::string str, int actualIndex, cha
                 if(validScapeChar(str[++index]) == true) {
                     if(str[index] == '"' || str[index] == '\'') {
                         result += str[index];
+                        
                     }
+                    std::cout << "[*] Lexer: found escape char::-> \\" <<str[index] << std::endl;
                 }
         }
     } else if (!stack.empty() && stack.top() == stackChar) {

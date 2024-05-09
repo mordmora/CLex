@@ -1,8 +1,3 @@
 int main (){
-    int a = 1E+a12;
-
-
-
-
-    
-    }
+    string str = "\nhello world\n";
+}
