@@ -36,18 +36,22 @@ void lexer(std::string &str) {
         std::cout<<"[!] ERROR: Invalid numeric constan. ---> " <<identifierStr<<std::endl;
         return;
       }
-    } else if(isalpha(lastChar)){
+    } else if(isalpha(lastChar) || lastChar == '_') {
       identifierStr = lastChar;
+      while(lastChar == '_'){
+        lastChar = str[index++];
+        identifierStr += lastChar;
+      }
       while(isalnum((lastChar = str[index++]))) {
         identifierStr += lastChar;
         }
         if(getAlphaNumericToken(identifierStr) == IDENTIFIER) {     
-            displayDebugInfo(identifierStr, IDENTIFIER);
+          displayDebugInfo(identifierStr, IDENTIFIER);
         
         }else{
           displayDebugInfo(identifierStr, getAlphaNumericToken(identifierStr));
         }
-     // displayDebugInfo(tokenToStr(getAlphaNumericToken(identifierStr)));
+       // displayDebugInfo(tokenToStr(getAlphaNumericToken(identifierStr)));
     }else{
       TokenType tokenAux = getSpecialsTokens(lastChar);
         std::pair<int, std::string> result;
@@ -63,7 +67,10 @@ void lexer(std::string &str) {
         index = result.first;
         displayDebugInfo(result.second, STRINGVAR);
         displayDebugInfo(std::string (1, lastChar), tokenAux);
-        }else {
+        }else if ((lastChar == '!' && str[index] == '=') || (lastChar == '<' && str[index] == '=') || (lastChar == '>' && str[index] == '=') || (lastChar == '&' && str[index] == '&') || (lastChar == '|' && str[index] == '|') || (lastChar == '=' && str[index] == '=')) {
+          std::string aux = std::string(1, lastChar) + str[index++];
+          displayDebugInfo(aux, getAlphaNumericToken(aux));
+        }else{
           displayDebugInfo(std::string (1, lastChar), tokenAux);
         }
     }

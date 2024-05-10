@@ -8,7 +8,6 @@
 bool validScapeChar(char c) {
     return c == 'n' || c == '0' || c == 'r' || c == 't' || c == '\\' || c == 'v' || c == 'f' || c == 'a' || c == '\'' || c == '"';
 }
-
 std::pair<int, std::string> stackAutomaton(std::string str, int actualIndex, char stackChar) {
     std::string result;
     int index = actualIndex - 1;

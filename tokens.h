@@ -8,6 +8,12 @@ enum TokenType {
   AUTO,
   MAIN,
   STRING,
+  OPREL_OR,
+  OPREL_AND,
+  OPREL_DIFF,
+  OPREL_EQ,
+  OPBIN_IN,
+
   DOUBLE,
   INT,
   STRUCT,
@@ -125,6 +131,11 @@ std::string tokenToStr(TokenType type){
     case SEMICOLON: return "SEMICOLON";
     case PIPE: return "PIPE";
     case ASSIGN: return "EQUALS";
+    case QUESTION_MARK: return "QUESTION_MARK";
+    case OPREL_OR: return "OPREL_OR";
+    case OPREL_AND: return "OPREL_AND";
+    case OPREL_DIFF: return "OPREL_DIFF";
+    case OPREL_EQ: return "OPREL_EQ";
     case NOT: return "NOT";
     case AMPERSAND: return "AMPERSAND";
     case UNDERSCORE: return "UNDERSCORE";
@@ -209,6 +220,14 @@ TokenType getAlphaNumericToken(std::string &identifierStr) {
         return STATIC;
       } else if (identifierStr == "while"){
         return WHILE;
+      }else if (identifierStr == "!="){
+        return OPREL_DIFF;
+      }else if(identifierStr == "=="){
+        return OPREL_EQ;
+      }else if(identifierStr == "&&"){
+        return OPREL_AND;
+      } else if(identifierStr == "||"){
+        return OPREL_OR;
       }else{
         return IDENTIFIER;
       }
